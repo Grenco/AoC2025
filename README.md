@@ -22,3 +22,7 @@ Okay, this time I actually have been busy but I'm finally finding time to work o
 ### Part 1
 
 Yes, I realise it's day 10, I will catch up soon, I've been distracted with setting up [Omarchy](https://omarchy.org/) . For now, Zig's getting a bit more familiar, and I've got a better setup to work in now, so it's getting easier. I'm sure I'm still doing a million things wrong, but the solution came much quicker this time, with the main difficulty being reorganising the project to allow for shared util functions between files.
+
+### Part 2
+
+That one worked nicely, and even though it's probably not the most readable, I'm enjoying Zig's [loops as expressions](https://zig.guide/language-basics/loops-as-expressions/) way too much.

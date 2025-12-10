@@ -2,7 +2,7 @@ const std = @import("std");
 const expect = std.testing.expect;
 const util = @import("util.zig");
 
-fn findCombination(example: bool, _: bool) anyerror!u64 {
+fn findCombination(example: bool, part2: bool) anyerror!u64 {
     const input_file = try util.getInputFile(2, example);
     defer input_file.close();
 
@@ -25,32 +25,7 @@ fn findCombination(example: bool, _: bool) anyerror!u64 {
 
         var value = start;
         while (value <= end) : (value += 1) {
-            // var powerOfTen: u64 = 10;
-            const pow: u16 = std.math.log10_int(value);
-            if (@mod(pow, 2) == 0) {
-                continue;
-            }
-
-            const powerOfTen = try std.math.powi(u64, 10, @divFloor(pow, 2) + 1);
-            const lower = @mod(value, powerOfTen);
-            const upper = @divFloor(value, powerOfTen);
-
-            // std.debug.print("TESTING: {d}, POW: {d}, POWEROFTEN {d}, LOWER: {d}, UPPER {d}\n", .{ value, pow, powerOfTen, lower, upper });
-
-            if (lower == upper) {
-                total += value;
-                std.debug.print("INVALID: {d}\n", .{value});
-            }
-            // const invalidCode = while (upper >= lower) {
-            //     if (upper == lower) break value;
-            //     powerOfTen *= 10;
-            //     lower = @mod(value, powerOfTen);
-            //     upper = @divFloor(value, powerOfTen);
-            // } else 0;
-
-            // if (invalidCode > 0) {
-            //     std.debug.print("INVALID: {d}\n", .{invalidCode});
-            // }
+            total += if (try isInvalid(value, part2)) value else 0;
         }
     } else |err| switch (err) {
         error.EndOfStream => return total,
@@ -59,6 +34,51 @@ fn findCombination(example: bool, _: bool) anyerror!u64 {
         => |e| return e,
     }
     return total;
+}
+
+fn isInvalid(value: u64, part2: bool) !bool {
+    const digits: u16 = std.math.log10_int(value) + 1;
+    if (!part2) {
+        if (@mod(digits, 2) == 1) {
+            return false;
+        }
+
+        const powerOfTen = try std.math.powi(u64, 10, @divFloor(digits, 2));
+        const lower = @mod(value, powerOfTen);
+        const upper = @divFloor(value, powerOfTen);
+
+        if (lower == upper) {
+            std.debug.print("INVALID: {d}\n", .{value});
+            return true;
+        }
+        return false;
+    }
+
+    const maxDigits = @divFloor(digits, 2);
+    var pow: u8 = 1;
+    while (pow <= maxDigits) : (pow += 1) {
+        if (@mod(digits, pow) != 0) continue;
+
+        const powerOfTen = try std.math.powi(u64, 10, pow);
+
+        var lower = @mod(value, powerOfTen);
+        var prevLower: u64 = 0;
+        var upper = @divFloor(value, powerOfTen);
+
+        const invalid = while (upper > 0) {
+            prevLower = lower;
+            lower = @mod(upper, powerOfTen);
+            upper = @divFloor(upper, powerOfTen);
+            if (lower != prevLower) break false;
+        } else true;
+
+        if (invalid) {
+            std.debug.print("INVALID: {d}\n", .{value});
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const example_only = false;
@@ -77,23 +97,23 @@ test "Day 2 Part 1" {
         return;
     };
     std.debug.print("Pt.1 RESULT: {d} \n", .{result});
-    try expect(result > 0);
+    try expect(result == 31839939622);
 }
 
-// test "Day 2 Part 2 Example" {
-//     const result = findCombination(true, true) catch |err| {
-//         std.debug.print("{s}\n", .{@errorName(err)});
-//         return;
-//     };
-//     std.debug.print("Pt.2 EXAMPLE RESULT: {d} \n", .{result});
-//     try expect(result > 0);
-// }
-// test "Day 2 Part 2" {
-//     if (example_only) return;
-//     const result = findCombination(false, true) catch |err| {
-//         std.debug.print("{s}\n", .{@errorName(err)});
-//         return;
-//     };
-//     std.debug.print("Pt.2 RESULT: {d} \n", .{result});
-//     try expect(result > 0);
-// }
+test "Day 2 Part 2 Example" {
+    const result = findCombination(true, true) catch |err| {
+        std.debug.print("{s}\n", .{@errorName(err)});
+        return;
+    };
+    std.debug.print("Pt.2 EXAMPLE RESULT: {d} \n", .{result});
+    try expect(result == 4174379265);
+}
+test "Day 2 Part 2" {
+    if (example_only) return;
+    const result = findCombination(false, true) catch |err| {
+        std.debug.print("{s}\n", .{@errorName(err)});
+        return;
+    };
+    std.debug.print("Pt.2 RESULT: {d} \n", .{result});
+    try expect(result == 41662374059);
+}
