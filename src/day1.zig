@@ -1,19 +1,9 @@
 const std = @import("std");
 const expect = std.testing.expect;
+const util = @import("util.zig");
 
-fn getFile(fileName: []const u8) !std.fs.File {
-    const parts = [_][]const u8{ "src/day1/", fileName };
-    const allocator = std.heap.page_allocator;
-    const full_path = std.mem.concat(allocator, u8, &parts) catch unreachable;
-
-    defer allocator.free(full_path);
-
-    const input_file = try std.fs.cwd().openFile(full_path, .{});
-    return input_file;
-}
-
-fn findCombination(fileName: []const u8, part2: bool) anyerror!u32 {
-    const input_file = try getFile(fileName);
+fn findCombination(example: bool, part2: bool) anyerror!u32 {
+    const input_file = try util.getInputFile(1, example);
     defer input_file.close();
 
     var buffer: [1024]u8 = undefined;
@@ -62,7 +52,7 @@ fn findCombination(fileName: []const u8, part2: bool) anyerror!u32 {
 
 const example_only = false;
 test "Day 1 Part 1 Example" {
-    const result = findCombination("exampleInput.txt", false) catch |err| {
+    const result = findCombination(true, false) catch |err| {
         std.debug.print("{s}", .{@errorName(err)});
         return;
     };
@@ -71,7 +61,7 @@ test "Day 1 Part 1 Example" {
 }
 test "Day 1 Part 1" {
     if (example_only) return;
-    const result = findCombination("input.txt", false) catch |err| {
+    const result = findCombination(false, false) catch |err| {
         std.debug.print("{s}", .{@errorName(err)});
         return;
     };
@@ -80,7 +70,7 @@ test "Day 1 Part 1" {
 }
 
 test "Day 1 Part 2 Example" {
-    const result = findCombination("exampleInput.txt", true) catch |err| {
+    const result = findCombination(true, true) catch |err| {
         std.debug.print("{s}", .{@errorName(err)});
         return;
     };
@@ -89,7 +79,7 @@ test "Day 1 Part 2 Example" {
 }
 test "Day 1 Part 2" {
     if (example_only) return;
-    const result = findCombination("input.txt", true) catch |err| {
+    const result = findCombination(false, true) catch |err| {
         std.debug.print("{s}", .{@errorName(err)});
         return;
     };
