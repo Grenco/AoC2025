@@ -26,3 +26,9 @@ Yes, I realise it's day 10, I will catch up soon, I've been distracted with sett
 ### Part 2
 
 That one worked nicely, and even though it's probably not the most readable, I'm enjoying Zig's [loops as expressions](https://zig.guide/language-basics/loops-as-expressions/) way too much.
+
+## Day 3
+
+### Part 1
+
+Not much to say for this one, it was pretty simple, but after a quick look at pt.2 I can tell that might require a bit more thought.
