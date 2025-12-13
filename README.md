@@ -1,6 +1,6 @@
 # AoC 2025
 
-My attempt at Advent of Code 2025. I've never written Zig before, so this will be bad!
+My attempt at [Advent of Code 2025](https://adventofcode.com/). I've never written [Zig](https://ziglang.org/) before, so this will be bad!
 I'll track my progress on each day below.
 
 ## Day 1
@@ -32,3 +32,7 @@ That one worked nicely, and even though it's probably not the most readable, I'm
 ### Part 1
 
 Not much to say for this one, it was pretty simple, but after a quick look at pt.2 I can tell that might require a bit more thought.
+
+### Part 2
+
+That didn't actually require too much adjustment from my previous method, just moving from two hard-coded values to an array where the numbers can flow down. The hardest part was finding out how to create a runtime-sized array in Zig, turns out I can't do that on the stack and I need to use an allocator to create it on the heap, makes sense, I'm just out of practice with manual memory management.
