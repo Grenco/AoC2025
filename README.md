@@ -51,3 +51,9 @@ I probably overcomplicated this a bit, but if last year is anything to go by, ha
 ### Part 2
 
 That one was surprisingly easy!
+
+## Day 5
+
+### Part 1
+
+I'm finally starting to feel a bit more comfortable with Zig now. This one wasn't too hard, just battling with compiler errors as I go.
