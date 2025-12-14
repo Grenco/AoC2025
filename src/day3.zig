@@ -2,7 +2,7 @@ const std = @import("std");
 const expect = std.testing.expect;
 const util = @import("util.zig");
 
-fn findCombination(example: bool, digits: u8) anyerror!u64 {
+fn findTotalJoltage(example: bool, digits: u8) anyerror!u64 {
     const input_file = try util.getInputFile(3, example);
     defer input_file.close();
 
@@ -50,7 +50,7 @@ fn findCombination(example: bool, digits: u8) anyerror!u64 {
 
 const example_only = false;
 test "Day 3 Part 1 Example" {
-    const result = findCombination(true, 2) catch |err| {
+    const result = findTotalJoltage(true, 2) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -59,7 +59,7 @@ test "Day 3 Part 1 Example" {
 }
 test "Day 3 Part 1" {
     if (example_only) return;
-    const result = findCombination(false, 2) catch |err| {
+    const result = findTotalJoltage(false, 2) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -68,7 +68,7 @@ test "Day 3 Part 1" {
 }
 
 test "Day 3 Part 2 Example" {
-    const result = findCombination(true, 12) catch |err| {
+    const result = findTotalJoltage(true, 12) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -77,7 +77,7 @@ test "Day 3 Part 2 Example" {
 }
 test "Day 3 Part 2" {
     if (example_only) return;
-    const result = findCombination(false, 12) catch |err| {
+    const result = findTotalJoltage(false, 12) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };

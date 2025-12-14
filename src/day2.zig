@@ -2,7 +2,7 @@ const std = @import("std");
 const expect = std.testing.expect;
 const util = @import("util.zig");
 
-fn findCombination(example: bool, part2: bool) anyerror!u64 {
+fn countInvalidCodes(example: bool, part2: bool) anyerror!u64 {
     const input_file = try util.getInputFile(2, example);
     defer input_file.close();
 
@@ -83,7 +83,7 @@ fn isInvalid(value: u64, part2: bool) !bool {
 
 const example_only = false;
 test "Day 2 Part 1 Example" {
-    const result = findCombination(true, false) catch |err| {
+    const result = countInvalidCodes(true, false) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -92,7 +92,7 @@ test "Day 2 Part 1 Example" {
 }
 test "Day 2 Part 1" {
     if (example_only) return;
-    const result = findCombination(false, false) catch |err| {
+    const result = countInvalidCodes(false, false) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -101,7 +101,7 @@ test "Day 2 Part 1" {
 }
 
 test "Day 2 Part 2 Example" {
-    const result = findCombination(true, true) catch |err| {
+    const result = countInvalidCodes(true, true) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -110,7 +110,7 @@ test "Day 2 Part 2 Example" {
 }
 test "Day 2 Part 2" {
     if (example_only) return;
-    const result = findCombination(false, true) catch |err| {
+    const result = countInvalidCodes(false, true) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
