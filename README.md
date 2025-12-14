@@ -36,3 +36,14 @@ Not much to say for this one, it was pretty simple, but after a quick look at pt
 ### Part 2
 
 That didn't actually require too much adjustment from my previous method, just moving from two hard-coded values to an array where the numbers can flow down. The hardest part was finding out how to create a runtime-sized array in Zig, turns out I can't do that on the stack and I need to use an allocator to create it on the heap, makes sense, I'm just out of practice with manual memory management.
+
+## Day 4
+
+### Part 1
+
+I probably overcomplicated this a bit, but if last year is anything to go by, having some solid tools for working with grids is a must, so it was worth the effort, and I learned a lot! Including:
+
+- I probably wasn't reading files in the best way
+- I'm probably still not reading files in the best way
+- How to make a struct, and make it "Generic"
+- The equivalent of Generics/Templates in Zig is insane, but it actually makes a lot of sense after getting my head around it. Why shouldn't the type just be an argument? Though having a function to capture the scope of the type and return a new generic type is a little unnatural, but then generics as a whole aren't really natural to begin with.
