@@ -3,7 +3,7 @@
 My attempt at [Advent of Code 2025](https://adventofcode.com/). I've never written [Zig](https://ziglang.org/) before, so this will be bad!
 I'll track my progress on each day below.
 
-## Day 1
+## [Day 1: Secret Entrance](https://adventofcode.com/2025/day/1)
 
 ### Part 1
 
@@ -17,7 +17,7 @@ After getting that right, it was (mostly) smooth sailing when I figured out the 
 
 Okay, this time I actually have been busy but I'm finally finding time to work on this again.
 
-## Day 2
+## [Day 2: Gift Shop](https://adventofcode.com/2025/day/2)
 
 ### Part 1
 
@@ -27,7 +27,7 @@ Yes, I realise it's day 10, I will catch up soon, I've been distracted with sett
 
 That one worked nicely, and even though it's probably not the most readable, I'm enjoying Zig's [loops as expressions](https://zig.guide/language-basics/loops-as-expressions/) way too much.
 
-## Day 3
+## [Day 3: Lobby](https://adventofcode.com/2025/day/3)
 
 ### Part 1
 
@@ -37,7 +37,7 @@ Not much to say for this one, it was pretty simple, but after a quick look at pt
 
 That didn't actually require too much adjustment from my previous method, just moving from two hard-coded values to an array where the numbers can flow down. The hardest part was finding out how to create a runtime-sized array in Zig, turns out I can't do that on the stack and I need to use an allocator to create it on the heap, makes sense, I'm just out of practice with manual memory management.
 
-## Day 4
+## [Day 4: Printing Department](https://adventofcode.com/2025/day/4)
 
 ### Part 1
 
@@ -52,8 +52,12 @@ I probably overcomplicated this a bit, but if last year is anything to go by, ha
 
 That one was surprisingly easy!
 
-## Day 5
+## [Day 5: Cafeteria](https://adventofcode.com/2025/day/5)
 
 ### Part 1
 
 I'm finally starting to feel a bit more comfortable with Zig now. This one wasn't too hard, just battling with compiler errors as I go.
+
+### Part 2
+
+I fell into the trap on this one of looping through every possible range, that didn't go well. But I think my solution of combining ranges was quite neat in the end, and I removed the inclusive/exclusive flag on my Range struct because it just caused more headaches than it was worth.

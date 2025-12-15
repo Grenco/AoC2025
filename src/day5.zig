@@ -5,7 +5,7 @@ const File = std.fs.File;
 const Allocator = std.mem.Allocator;
 const Range = @import("range.zig").Range;
 
-fn findAccessibleRolls(example: bool, _: bool) anyerror!u64 {
+fn findFreshIngredientIds(example: bool, part2: bool) anyerror!u64 {
     const input_file = try util.getInputFile(5, example);
     defer input_file.close();
 
@@ -14,7 +14,12 @@ fn findAccessibleRolls(example: bool, _: bool) anyerror!u64 {
     var buffer: [1024]u8 = undefined;
     var reader = input_file.reader(&buffer);
 
-    const ranges = try readRanges(&reader, allocator);
+    var ranges = try readRanges(&reader, allocator);
+    defer ranges.deinit(allocator);
+
+    if (part2) {
+        return try findTotalSizeOfRanges(allocator, &ranges);
+    }
 
     var fresh_stock: u64 = 0;
     var l = try reader.interface.takeDelimiter('\n') orelse "";
@@ -28,6 +33,34 @@ fn findAccessibleRolls(example: bool, _: bool) anyerror!u64 {
     return fresh_stock;
 }
 
+fn findTotalSizeOfRanges(allocator: Allocator, ranges: *std.ArrayList(Range(u64))) !u64 {
+    var combinedRanges = try std.ArrayList(Range(u64)).initCapacity(allocator, ranges.items.len);
+    defer combinedRanges.deinit(allocator);
+
+    for (ranges.items) |range| {
+        var i: usize = 0;
+        var newRange = Range(u64).init(range.min, range.max);
+        while (i < combinedRanges.items.len) {
+            const combinedRange = combinedRanges.items[i];
+            if (newRange.overlaps(combinedRange)) {
+                newRange = newRange.combine(combinedRange);
+                _ = combinedRanges.orderedRemove(i);
+                continue;
+            }
+            i += 1;
+        }
+
+        try combinedRanges.append(allocator, newRange);
+    }
+
+    var totalSize: u64 = 0;
+    for (combinedRanges.items) |r| {
+        std.debug.print("{d}-{d}, size: {d}\n", .{ r.min, r.max, r.size() });
+        totalSize += r.size();
+    }
+    return totalSize;
+}
+
 fn readRanges(reader: *File.Reader, gpa: Allocator) !std.ArrayList(Range(u64)) {
     var l = try reader.interface.takeDelimiter('\n') orelse "";
 
@@ -38,8 +71,7 @@ fn readRanges(reader: *File.Reader, gpa: Allocator) !std.ArrayList(Range(u64)) {
         const max_str = split_line.next() orelse "";
         const min = try std.fmt.parseInt(u64, min_str, 10);
         const max = try std.fmt.parseInt(u64, max_str, 10);
-        var range = Range(u64).set(min, max);
-        range.max_inclusive = true;
+        const range = Range(u64).init(min, max + 1);
         try ranges.append(gpa, range);
     }
 
@@ -48,13 +80,13 @@ fn readRanges(reader: *File.Reader, gpa: Allocator) !std.ArrayList(Range(u64)) {
 
 const example_only = false;
 test "Day 5 Part 1 Example" {
-    const result = try findAccessibleRolls(true, false);
+    const result = try findFreshIngredientIds(true, false);
     std.debug.print("Pt.1 EXAMPLE RESULT: {d} \n", .{result});
     try expect(result == 3);
 }
 test "Day 5 Part 1" {
     if (example_only) return;
-    const result = findAccessibleRolls(false, false) catch |err| {
+    const result = findFreshIngredientIds(false, false) catch |err| {
         std.debug.print("{s}\n", .{@errorName(err)});
         return;
     };
@@ -62,20 +94,20 @@ test "Day 5 Part 1" {
     try expect(result == 567);
 }
 
-// test "Day 5 Part 2 Example" {
-//     const result = findAccessibleRolls(true, true) catch |err| {
-//         std.debug.print("{s}\n", .{@errorName(err)});
-//         return;
-//     };
-//     std.debug.print("Pt.2 EXAMPLE RESULT: {d} \n", .{result});
-//     try expect(result == 14);
-// }
-// test "Day 5 Part 2" {
-//     if (example_only) return;
-//     const result = findAccessibleRolls(false, true) catch |err| {
-//         std.debug.print("{s}\n", .{@errorName(err)});
-//         return;
-//     };
-//     std.debug.print("Pt.2 RESULT: {d} \n", .{result});
-//     try expect(result > 0);
-// }
+test "Day 5 Part 2 Example" {
+    const result = findFreshIngredientIds(true, true) catch |err| {
+        std.debug.print("{s}\n", .{@errorName(err)});
+        return;
+    };
+    std.debug.print("Pt.2 EXAMPLE RESULT: {d} \n", .{result});
+    try expect(result == 14);
+}
+test "Day 5 Part 2" {
+    if (example_only) return;
+    const result = findFreshIngredientIds(false, true) catch |err| {
+        std.debug.print("{s}\n", .{@errorName(err)});
+        return;
+    };
+    std.debug.print("Pt.2 RESULT: {d} \n", .{result});
+    try expect(result == 354149806372909);
+}

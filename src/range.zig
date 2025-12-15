@@ -3,20 +3,30 @@ pub fn Range(comptime T: type) type {
         const Self = @This();
         min: T,
         max: T,
-        min_inclusive: bool,
-        max_inclusive: bool,
 
-        pub fn set(min: T, max: T) Range(T) {
+        pub fn init(min: T, max: T) Range(T) {
             return Self{
                 .min = min,
                 .max = max,
-                .min_inclusive = true,
-                .max_inclusive = false,
             };
         }
 
         pub fn contains(self: Self, n: T) bool {
-            return (n > self.min or (self.min_inclusive and n == self.min)) and (n < self.max or (self.max_inclusive and n == self.max));
+            return self.min <= n and n < self.max;
+        }
+
+        pub fn overlaps(self: Self, other: Range(T)) bool {
+            return self.contains(other.min) or self.contains(other.max) or other.contains(self.min) or other.contains(self.max);
+        }
+
+        pub fn combine(self: Self, other: Range(T)) Range(T) {
+            const min = @min(self.min, other.min);
+            const max = @max(self.max, other.max);
+            return Range(T).init(min, max);
+        }
+
+        pub fn size(self: Self) T {
+            return self.max - self.min;
         }
     };
 }
