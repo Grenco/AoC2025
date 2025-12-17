@@ -61,3 +61,9 @@ I'm finally starting to feel a bit more comfortable with Zig now. This one wasn'
 ### Part 2
 
 I fell into the trap on this one of looping through every possible range, that didn't go well. But I think my solution of combining ranges was quite neat in the end, and I removed the inclusive/exclusive flag on my Range struct because it just caused more headaches than it was worth.
+
+## [Day 6: Trash Compactor](https://adventofcode.com/2025/day/6)
+
+### Part 1
+
+I think I've finally found the "proper" way to read a file line-by-line, until tomorrow. Anyway, the problem itself was all good, just the usual battle with the compiler. But my solution does not lend itself well to part 2, I'm not looking forward to this...
