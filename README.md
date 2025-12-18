@@ -67,3 +67,7 @@ I fell into the trap on this one of looping through every possible range, that d
 ### Part 1
 
 I think I've finally found the "proper" way to read a file line-by-line, until tomorrow. Anyway, the problem itself was all good, just the usual battle with the compiler. But my solution does not lend itself well to part 2, I'm not looking forward to this...
+
+### Part 2
+
+I was so sure this would be the first time I run the code and get no compiler errors. I think I got about 20... I think the Zig LSP still requires some work, as I feel like a lot of these errors should be flagged before compilation. But I'm still enjoying using the language, it feels a lot more approachable than C++. Not much to say on the solution itself, my grid struct came in useful again.
