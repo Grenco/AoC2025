@@ -71,3 +71,9 @@ I think I've finally found the "proper" way to read a file line-by-line, until t
 ### Part 2
 
 I was so sure this would be the first time I run the code and get no compiler errors. I think I got about 20... I think the Zig LSP still requires some work, as I feel like a lot of these errors should be flagged before compilation. But I'm still enjoying using the language, it feels a lot more approachable than C++. Not much to say on the solution itself, my grid struct came in useful again.
+
+## [Day 7: Laboratories](https://adventofcode.com/2025/day/7)
+
+## Part 1
+
+Something interesting I've found is that (with the exception of Day 1, which was very heavy on learning), most of the problems have taken roughly the same amount of time. It seems like as the problems get harder, my Zig improves and the two balance each other out. This was probably the quickest I got things to compile, and the problem itself was simple enough so this one was quicker than most.
