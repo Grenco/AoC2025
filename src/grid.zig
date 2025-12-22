@@ -6,6 +6,11 @@ const OutOfBoundsError = error{
     YOutOfBounds,
 };
 
+pub const CellRef = struct {
+    x: usize,
+    y: usize,
+};
+
 pub fn Grid(comptime T: type) type {
     return struct {
         const Self = @This();

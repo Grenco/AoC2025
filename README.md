@@ -77,3 +77,9 @@ I was so sure this would be the first time I run the code and get no compiler er
 ## Part 1
 
 Something interesting I've found is that (with the exception of Day 1, which was very heavy on learning), most of the problems have taken roughly the same amount of time. It seems like as the problems get harder, my Zig improves and the two balance each other out. This was probably the quickest I got things to compile, and the problem itself was simple enough so this one was quicker than most.
+
+## Part 2
+
+I'm pretty sure I read somewhere that recursion is un-Zigish, so I had to do this the hard way. But I'm certain it would have stack-overflowed anyway and wasted my time anyway, so thanks Zig! I'm also quite glad that I had the foresight to cache the path split counts (after a similar problem which destroyed my brain last year), as 6 trillion operations is quite a lot... I'm happy that Zig HashMaps can use structs as keys by default (not sure if it's that efficient though, but it works).
+
+My one mistake was thinking I needed DoublyLinkedLists for stack-like functionality, and only realised afterwards that I only needed to pop from the end (which was good, because my code was hanging for apparently no reason after a few iterations with DoublyLinkedLists).
